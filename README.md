@@ -1,6 +1,6 @@
 ## Screenshot
 
-![Task Workplace Screenshot](./screenshots/screenshot_ver0.1.png.png)
+![Task Workplace Screenshot](./screenshots/screenshot_ver0.1.png)
 
 # Task Workplace
 
