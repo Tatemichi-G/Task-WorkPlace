@@ -1,6 +1,6 @@
-import Todo from "./Todo";
+import Task from "./Task";
 
-export default function DailyTasks({ todos, setTodos, date, setDate }) {
+export default function DailyTasks({ tasks, setTasks, date, setDate }) {
   const formatDate = (targetDate) => {
     const year = targetDate.getFullYear();
     const month = String(targetDate.getMonth() + 1).padStart(2, "0");
@@ -27,8 +27,8 @@ export default function DailyTasks({ todos, setTodos, date, setDate }) {
     setDate(formatDate(currentDate));
   };
 
-  const dailyTasks = todos.filter(
-    (todo) => todo.deadline === date && !todo.complete,
+  const dailyTasks = tasks.filter(
+    (task) => task.deadline === date && !task.complete,
   );
   const displayDate = date ? formatDisplayDate(new Date(date)) : "";
 
@@ -50,14 +50,14 @@ export default function DailyTasks({ todos, setTodos, date, setDate }) {
             ＞
           </button>
         </div>
-        <ul className='todo-list'>
+        <ul className='task-list'>
           {dailyTasks.length > 0 ? (
-            dailyTasks.map((todo) => (
-              <Todo
-                key={todo.id}
-                todo={todo}
-                todos={todos}
-                setTodos={setTodos}
+            dailyTasks.map((task) => (
+              <Task
+                key={task.id}
+                task={task}
+                tasks={tasks}
+                setTasks={setTasks}
                 showStart={true}
               />
             ))

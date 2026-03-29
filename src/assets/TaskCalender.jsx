@@ -4,7 +4,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
-export default function TaskCalendar({ todos, selectedDate, setSelectedDate }) {
+export default function TaskCalendar({
+  tasks,
+  selectedDate,
+  setSelectedDate,
+}) {
   const calendarRef = useRef(null);
 
   const formatDate = (targetDate) => {
@@ -24,26 +28,22 @@ export default function TaskCalendar({ todos, selectedDate, setSelectedDate }) {
     calendarApi.gotoDate(selectedDate);
   }, [selectedDate]);
 
-  const calenderEvents = todos.map((todo) => {
-    if (todo.scheduled_start || todo.scheduled_end) {
+  const calendarEvents = tasks.map((task) => {
+    if (task.scheduled_start || task.scheduled_end) {
       return {
-        id: String(todo.id),
-        title: todo.todo,
-        date: todo.deadline,
-        start: todo.scheduled_start
-          ? `${todo.deadline}T${todo.scheduled_start}:00`
-          : "",
-        end: todo.scheduled_end
-          ? `${todo.deadline}T${todo.scheduled_end}:00`
-          : "",
-      };
-    } else {
-      return {
-        id: String(todo.id),
-        title: todo.todo,
-        date: todo.deadline,
+        id: String(task.id),
+        title: task.task,
+        date: task.deadline,
+        start: task.scheduled_start ? `${task.deadline}T${task.scheduled_start}:00` : "",
+        end: task.scheduled_end ? `${task.deadline}T${task.scheduled_end}:00` : "",
       };
     }
+
+    return {
+      id: String(task.id),
+      title: task.task,
+      date: task.deadline,
+    };
   });
 
   return (
@@ -71,7 +71,7 @@ export default function TaskCalendar({ todos, selectedDate, setSelectedDate }) {
           setSelectedDate(clickedDate);
           calendarApi?.changeView("timeGridDay", clickedDate);
         }}
-        events={calenderEvents}
+        events={calendarEvents}
         height='100%'
       />
     </section>

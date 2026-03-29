@@ -1,22 +1,22 @@
 import { useState } from "react";
 import "./App.css";
-import TodoInput from "./assets/TodoInput";
-import OverdueTodos from "./assets/OverdueTodos";
-import CompletedTodos from "./assets/CompletedTodos";
+import TaskInput from "./assets/TaskInput";
+import OverdueTasks from "./assets/OverdueTasks";
+import CompletedTasks from "./assets/CompletedTasks";
 import DailyTasks from "./assets/DailyTasks";
 import TaskCalendar from "./assets/TaskCalender";
 
 export default function App() {
-  const [todos, setTodos] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0],
   );
-  const filteredOverdueTodos = todos.filter(
-    (todo) =>
-      todo.deadline < new Date().toISOString().split("T")[0] && !todo.complete,
+  const filteredOverdueTasks = tasks.filter(
+    (task) =>
+      task.deadline < new Date().toISOString().split("T")[0] && !task.complete,
   );
-  const completedTodos = todos.filter(
-    (todo) => todo.complete === true && todo.deadline === selectedDate,
+  const completedTasks = tasks.filter(
+    (task) => task.complete === true && task.deadline === selectedDate,
   );
 
   return (
@@ -30,41 +30,41 @@ export default function App() {
 
       <div id='app-layout'>
         <div id='app-left-column' className='app-column'>
-          <TodoInput todos={todos} setTodos={setTodos} />
+          <TaskInput tasks={tasks} setTasks={setTasks} />
         </div>
 
         <div id='app-center-column' className='app-column'>
           <DailyTasks
-            todos={todos}
-            setTodos={setTodos}
+            tasks={tasks}
+            setTasks={setTasks}
             date={selectedDate}
             setDate={setSelectedDate}
           />
 
-          {filteredOverdueTodos.length > 0 ? (
-            <OverdueTodos
-              todos={todos}
-              setTodos={setTodos}
-              filteredOverdueTodos={filteredOverdueTodos}
+          {filteredOverdueTasks.length > 0 ? (
+            <OverdueTasks
+              tasks={tasks}
+              setTasks={setTasks}
+              filteredOverdueTasks={filteredOverdueTasks}
             />
           ) : (
-            <section id='overdue-todos' className='app-panel pad-16'>
+            <section id='overdue-tasks' className='app-panel pad-16'>
               <h2>期限切れタスク一覧</h2>
-              <p className='empty-message'>期限切れのtodoがありません</p>
+              <p className='empty-message'>期限切れのtaskがありません</p>
             </section>
           )}
 
-          {completedTodos.length > 0 ? (
-            <CompletedTodos
-              todos={todos}
-              setTodos={setTodos}
-              completedTodos={completedTodos}
+          {completedTasks.length > 0 ? (
+            <CompletedTasks
+              tasks={tasks}
+              setTasks={setTasks}
+              completedTasks={completedTasks}
               date={selectedDate}
             />
           ) : (
-            <section id='completed-todos' className='app-panel pad-16'>
-              <h2>完了したTodo</h2>
-              <p className='empty-message'>完了したtodoがありません</p>
+            <section id='completed-tasks' className='app-panel pad-16'>
+              <h2>完了したタスク</h2>
+              <p className='empty-message'>完了したtaskがありません</p>
             </section>
           )}
         </div>
@@ -72,13 +72,17 @@ export default function App() {
         <div id='app-right-column' className='app-column'>
           <div id='calendar-panel' className='app-panel pad-16'>
             <TaskCalendar
-              todos={todos}
+              tasks={tasks}
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
             />
           </div>
         </div>
       </div>
+
+      <footer>
+        <small>&copy; g-tatemichi.com all right reserved 2026</small>
+      </footer>
     </main>
   );
 }

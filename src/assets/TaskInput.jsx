@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export default function TodoInput({ todos, setTodos }) {
-  const [input, setInput] = useState({
-    id: "",
+export default function TaskInput({ tasks, setTasks }) {
+  const createInitialInput = () => ({
+    id: Date.now(),
     tag: "",
-    todo: "",
+    task: "",
     deadline: "",
     scheduled_start: "",
     scheduled_end: "",
@@ -13,6 +13,8 @@ export default function TodoInput({ todos, setTodos }) {
     complete: false,
     completed_at: "",
   });
+
+  const [input, setInput] = useState(createInitialInput);
   const [error, setError] = useState("");
 
   const handleChange = (e, property) => {
@@ -22,24 +24,13 @@ export default function TodoInput({ todos, setTodos }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!input.tag || !input.todo || !input.deadline) {
+    if (!input.tag || !input.task || !input.deadline) {
       setError("全ての項目を入力してください");
       return;
     }
 
-    setTodos([...todos, input]);
-    setInput({
-      id: Date.now(),
-      tag: "",
-      todo: "",
-      deadline: "",
-      scheduled_start: "",
-      scheduled_end: "",
-      start: false,
-      started_at: "",
-      complete: false,
-      completed_at: "",
-    });
+    setTasks([...tasks, input]);
+    setInput(createInitialInput());
     setError("");
   };
 
@@ -54,12 +45,12 @@ export default function TodoInput({ todos, setTodos }) {
   };
 
   return (
-    <section id='make-todos' className='app-panel pad-16'>
-      <form id='todo-form' onSubmit={(e) => handleSubmit(e)}>
-        <h2>Todo作成</h2>
-        <p className='todo-input-label'>タグを入力</p>
+    <section id='make-tasks' className='app-panel pad-16'>
+      <form id='task-form' onSubmit={(e) => handleSubmit(e)}>
+        <h2>タスク作成</h2>
+        <p className='task-input-label'>タグを入力</p>
         <input
-          className='todo-input-field'
+          className='task-input-field'
           type='text'
           placeholder='タグを入力'
           value={input.tag}
@@ -67,19 +58,19 @@ export default function TodoInput({ todos, setTodos }) {
             handleChange(e, "tag");
           }}
         />
-        <p className='todo-input-label'>todoを入力</p>
+        <p className='task-input-label'>タスクを入力</p>
         <input
-          className='todo-input-field'
+          className='task-input-field'
           type='text'
-          placeholder='todoを入力'
-          value={input.todo}
+          placeholder='taskを入力'
+          value={input.task}
           onChange={(e) => {
-            handleChange(e, "todo");
+            handleChange(e, "task");
           }}
         />
-        <p className='todo-input-label'>〆切を入力</p>
+        <p className='task-input-label'>〆切を入力</p>
         <input
-          className='todo-input-field'
+          className='task-input-field'
           type='date'
           placeholder='〆切を入力'
           value={input.deadline}
@@ -88,16 +79,16 @@ export default function TodoInput({ todos, setTodos }) {
           }}
         />
 
-        <p className='todo-input-label'>予定時間を入力</p>
+        <p className='task-input-label'>予定時間を入力</p>
         <input
-          className='todo-input-field'
+          className='task-input-field'
           type='time'
           placeholder='開始時間を入力'
           value={input.scheduled_start}
           onChange={handleStartTimeChange}
         />
         <input
-          className='todo-input-field'
+          className='task-input-field'
           type='time'
           placeholder='終了時間を入力'
           value={input.scheduled_end}
@@ -109,23 +100,11 @@ export default function TodoInput({ todos, setTodos }) {
           }
         />
 
-        {error && <p className='todo-input-error'>{error}</p>}
+        {error && <p className='task-input-error'>{error}</p>}
 
-        <button className='todo-submit-button' type='submit'>
-          Todoを追加
+        <button className='task-submit-button' type='submit'>
+          Taskを追加
         </button>
-
-        {/* <p>確認用</p>
-        <pre
-          style={{
-            border: "1px solid gray",
-            height: 200,
-            width: 300,
-            whiteSpace: "pre-wrap",
-          }}
-        >
-          {input.tag} /{input.todo} /{input.deadline} / todo配列：{todos.length}
-        </pre> */}
       </form>
     </section>
   );

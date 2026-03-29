@@ -1,0 +1,39 @@
+services:
+  php:
+    build: ./php
+    container_name: task-wp-php
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+  
+  db: 
+    image: mariadb:11
+    container_name: task-wp-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: "rootpass"
+      MARIADB_DATABASE: "task-wp"
+      MARIADB_USER: "appuser"
+      MARIADB_PASSWORD: "apppass"
+    ports:
+      - "3310:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./initdb:/docker-entry-point-initdb.d
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: task-wp-pma
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "3410:88"
+
+volumes:
+  db_data:
+

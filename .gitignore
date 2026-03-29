@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#After build
+php/
+config/
+api/
+.docker-compose.yml

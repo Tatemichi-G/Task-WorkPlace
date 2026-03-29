@@ -1,4 +1,4 @@
-import Todo from "./Todo";
+import Task from "./Task";
 
 const formatDisplayDate = (targetDate) => {
   const year = targetDate.getFullYear();
@@ -7,25 +7,25 @@ const formatDisplayDate = (targetDate) => {
   return `${year}年 ${month}月 ${day}日`;
 };
 
-export default function CompletedTodos({
-  todos,
-  setTodos,
-  completedTodos,
+export default function CompletedTasks({
+  tasks,
+  setTasks,
+  completedTasks,
   date,
 }) {
   const displayDate = date ? formatDisplayDate(new Date(date)) : "";
 
   return (
-    <section id='completed-todos' className='app-panel pad-16'>
+    <section id='completed-tasks' className='app-panel pad-16'>
       <h2>{displayDate} の完了済</h2>
       <div className='section-scroll-body'>
-        <ul className='todo-list'>
-          {completedTodos.map((todo) => (
-            <Todo
-              key={todo.id}
-              todo={todo}
-              todos={todos}
-              setTodos={setTodos}
+        <ul className='task-list'>
+          {completedTasks.map((task) => (
+            <Task
+              key={task.id}
+              task={task}
+              tasks={tasks}
+              setTasks={setTasks}
               showCompletedAt={true}
             />
           ))}
