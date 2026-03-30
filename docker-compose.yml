@@ -3,9 +3,9 @@ services:
     build: ./php
     container_name: task-wp-php
     ports:
-      - "8090:8090"
+      - "8090:80"
     volumes:
-      - ./src:/var/www/html
+      - ./:/var/www/html
     depends_on:
       - db
   
@@ -22,7 +22,7 @@ services:
       - "3310:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./initdb:/docker-entry-point-initdb.d
+      - ./initdb:/docker-entrypoint-initdb.d
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -32,7 +32,7 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
     ports:
-      - "3410:88"
+      - "3410:80"
 
 volumes:
   db_data:

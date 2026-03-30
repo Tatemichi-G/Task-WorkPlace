@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { updateTask,deleteTask } from "./phpApi";
 
 export default function Task({
   task,
@@ -68,9 +69,34 @@ export default function Task({
     }
   };
 
-  const handleChangeDelete = (targetTask) => {
-    const newTasks = tasks.filter((currentTask) => currentTask.id !== targetTask.id);
-    setTasks(newTasks);
+  // const handleChangeDelete = (targetTask) => {
+  //   const newTasks = tasks.filter((currentTask) => currentTask.id !== targetTask.id);
+  //   setTasks(newTasks);
+  // };
+
+  const [error, setError] = useState("");
+  const saveTask = async (id, updates) => {
+    try {
+      const data = await updateTask({
+        id, 
+        ...updates});
+      handleChangeTask(data.task.id, data.task);
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const removeTask = async(id) => {
+    try {
+      const data = await deleteTask(id);
+      setTasks((current) => 
+        current.filter((item) =>
+          item.id != data.id));
+      setError("");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -111,12 +137,14 @@ export default function Task({
           </button>
           <button
             className='task-delete-button'
-            onClick={() => handleChangeDelete(task)}
+            onClick={() => removeTask(task.id)}
           >
             削除
           </button>
         </div>
       </div>
+
+      {error && <p className='task-item-error'>{error}</p>}
 
       {changeMode === task.id && (
         <div className='task-edit-row'>
@@ -189,7 +217,7 @@ export default function Task({
                 return;
               }
 
-              handleChangeTask(task.id, updates);
+              saveTask(task.id, updates);
             }}
             className='task-save-button'
           >
