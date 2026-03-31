@@ -36,6 +36,9 @@ export default function TaskCalendar({
         date: task.deadline,
         start: task.scheduled_start ? `${task.deadline}T${task.scheduled_start}:00` : "",
         end: task.scheduled_end ? `${task.deadline}T${task.scheduled_end}:00` : "",
+        // 本番用
+        // start: task.scheduled_start ? `${task.deadline}T${task.scheduled_start}` : "",
+        // end: task.scheduled_end ? `${task.deadline}T${task.scheduled_end}` : "",
       };
     }
 

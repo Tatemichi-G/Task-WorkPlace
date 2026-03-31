@@ -28,3 +28,4 @@ php/
 config/
 api/
 .docker-compose.yml
+.env.vps

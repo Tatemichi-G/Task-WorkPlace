@@ -1,4 +1,5 @@
-const API_BASE_URL = "http://localhost:8090/api";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8090/api";
 
 // 共通fetch。PHPのJSONレスポンスを必ずパースして返す。
 export async function apiFetch(path, options = {}) {
@@ -112,4 +113,3 @@ export async function deleteTask(id) {
     body: JSON.stringify({ id }),
   });
 }
-

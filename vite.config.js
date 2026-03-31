@@ -3,5 +3,6 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/task-workplace/",
+  // VPS では subdomain 直下に置くのでルート配信にする。
+  base: "/",
 });
